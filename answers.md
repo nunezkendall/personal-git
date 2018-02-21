@@ -65,7 +65,7 @@ information!
 For this we will be utilizing two tools called
 [Vagrant](https://www.vagrantup.com/) &
 [Virtualbox](https://www.virtualbox.org/), vagrant is a tool for
-building and managing development environments. Its a simple and
+building and managing development environments. Its a simple and
 powerful way to manage virtual machines enforcing consistency across
 multiple platforms. VirtualBox is a powerful x86 and
 AMD64/Intel64 [virtualization](https://www.virtualbox.org/wiki/Virtualization) product
@@ -88,11 +88,11 @@ for enterprise as well as home use.
 
 -   Upon first run bootstrap.sh will require several parameters:
 ```bash
-    -   your\_api\_key=
+    -   your\_api\_key=''
 
-    -   username=
+    -   username=''
 
-    -   password=
+    -   password=''
 ```
 -   Without these the VM will still start however the following will not
     be installed or configured:
@@ -135,7 +135,7 @@ Example:
 *DD\_API\_KEY=\$YOUR\_API\_KEY bash -c "\$(curl -L
 [https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install\_agent.sh](https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install_agent.sh))"*
 
-Below Ive included an excerpt from the included bootstrap configuration
+Below I have included an excerpt from the included bootstrap configuration
 file demonstrating the automation of the Datadog agent. This will only
 run on initial vagrant up or vagrant provision.
 ```bash
@@ -189,7 +189,7 @@ fi
 
     -   Edit bootstrap.sh
 
-        -   Your\_api\_key=Enter API Key Here
+        -   Your\_api\_key='Enter API Key Here'
 
 -   Running vagrant provision while the vm is still running will execute
     the bootstraph.sh, install your Datadog Agent and populate the API
@@ -203,7 +203,7 @@ fi
     the following:
 
 ## Tagging
-> Add tags in the agent config file and show us a screenshot of your host and its tags on the Host Map page in Datadog.
+> Add tags in the agent config file and show us a screenshot of your host and its tags on the Host Map page in Datadog.
 
 Tagging is used throughout the Datadog product to make it easier to
 subset and query the machines and metrics that you have to monitor.
@@ -235,7 +235,7 @@ sudo sh -c "sed 's/\^.\* tags:.\*/ tags: \$tags/'
 
     -   Allow you to predefine the desired tags
 
-        -   Tags=Insert your Tags Here
+        -   Tags='Insert your Tags Here'
 
     -   It will then check if the Datadog.conf file exists
 
@@ -247,11 +247,11 @@ sudo sh -c "sed 's/\^.\* tags:.\*/ tags: \$tags/'
 
     -   If the configuration file is missing it will copy the example
         configuration and write the desired configuration parameters.
-![tag image](screenshots/Tags.png)
+![tag image](screenshots/Tags.PNG)
 ## Installing and Monitoring PostgreSQL
 > Install a database on your machine (MongoDB, MySQL, or PostgreSQL) and then install the respective Datadog integration for that database.
 
-- Below Ive included an excerpt from bootstrap.sh which will do the following upon running intial vagrant up or vagrant provision
+- Below I have included an excerpt from bootstrap.sh which will do the following upon running intial vagrant up or vagrant provision
 - This will bootstrap will first check that the role:database is found within tags:
 -	It will then proceed with the install & enable PostgreSQL on boot.
 -	It will then go a step further to verify that the username & password has been configured in bootstrap.sh
