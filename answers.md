@@ -83,10 +83,10 @@ for enterprise as well as home use.
         [https://github.com/knunez/hiring-engineers.git](https://github.com/knunez/hiring-engineers.git)
 
 -   Within the same directory in which you cloned the repository run the
-    following command: 'vagrant up' This will trigger vagrant to provision
+    following command: `vagrant up` This will trigger vagrant to provision
     an ubuntu 14.04
 
--   Upon first run bootstrap.sh will require several parameters:
+-   Upon first run `bootstrap.sh` will require several parameters:
 ```bash
     -   your\_api\_key=''
 
@@ -103,8 +103,8 @@ for enterprise as well as home use.
 
     -   PostgreSQL integration will not be configured.
 
--   You may run 'vagrant provision' after the fact to execute the
-    bootstrap.sh
+-   You may run `vagrant provision` after the fact to execute the
+    `bootstrap.sh`
 
 -   You may now utilize vagrant ssh or ssh with your preferred terminal
     emulator to vagrant@localhost:2222, you will now be connected to the
@@ -137,7 +137,7 @@ Example:
 
 Below I have included an excerpt from the included bootstrap configuration
 file demonstrating the automation of the Datadog agent. This will only
-run on initial 'vagrant up' or 'vagrant provision'.
+run on initial `vagrant up` or `vagrant provision`.
 ```bash
 \#!/usr/bin/env bash
 
@@ -185,13 +185,13 @@ https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agen
 
 fi
 ```
--   Be sure to input your Datadog API Key in bootstrap.sh
+-   Be sure to input your Datadog API Key in `bootstrap.sh`
 
-    -   Edit bootstrap.sh
+    -   Edit `bootstrap.sh`
 
         -   Your\_api\_key='Enter API Key Here'
 
--   Running 'vagrant provision' while the vm is still running will execute
+-   Running `vagrant provision` while the vm is still running will execute
     the bootstraph.sh, install your Datadog Agent and populate the API
     Key to begin the transmission of data.
 
@@ -199,7 +199,7 @@ fi
     Map](https://app.datadoghq.com/infrastructure/map) to see that the
     agent is indeed reporting back to Datadog.
 
--   A successful initial 'vagrant up' or 'vagrant provision' should give you
+-   A successful initial `vagrant up` or `vagrant provision` should give you
     the following:
 
 ## Tagging
@@ -207,7 +207,7 @@ fi
 
 Tagging is used throughout the Datadog product to make it easier to
 subset and query the machines and metrics that you have to monitor.
-Below I will include an excerpt from bootstrap.sh which allows you to
+Below I will include an excerpt from `bootstrap.sh` which allows you to
 configure the tags in an automated way.
 ```bash
 \# Create a Variable for tags formatted as a string or list
@@ -251,10 +251,10 @@ sudo sh -c "sed 's/\^.\* tags:.\*/ tags: \$tags/'
 ## Installing and Monitoring PostgreSQL
 > Install a database on your machine (MongoDB, MySQL, or PostgreSQL) and then install the respective Datadog integration for that database.
 
-- Below I have included an excerpt from bootstrap.sh which will do the following upon running intial 'vagrant up' or 'vagrant provision'
+- Below I have included an excerpt from `bootstrap.sh` which will do the following upon running intial `vagrant up` or `vagrant provision`
 - This bootstrap will first check that the role:database is found within tags:
 -	It will then proceed with the install & enable PostgreSQL on boot.
--	It will then go a step further to verify that the username & password has been configured in bootstrap.sh
+-	It will then go a step further to verify that the username & password has been configured in `bootstrap.sh`
 -	Create the Datadog agent user in the database & create the necessary permissions
 -	It will install and configure the postgres.yaml integration for the Datadog agent.
 -	Finally it will restart the Datadog agent
@@ -323,7 +323,7 @@ psql -h localhost -U datadog postgres -c \
 || echo -e "\e[0;31mCannot connect to Postgres\e[0m"
 
 ```
-When prompted for the password enter the password you configured within bootstrap.sh
+When prompted for the password enter the password you configured within `bootstrap.sh`
 
 ## Writing a Custom Agent Check
 
