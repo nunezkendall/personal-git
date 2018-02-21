@@ -300,7 +300,31 @@ fi
 
 service datadog-agent restart
 ```
-![tag image](screenshots/postgres.png)
+![tag image](screenshots/postgres.PNG)
+
+Below you can see the parameters that have been updated within /etc/dd-agent/conf.d/postgres.yaml
+
+```yaml
+init_config:
+
+instances:
+  - host: localhost
+    port: 5432
+    username: datadog
+    password: monitoring
+```
+
+To verify the premissions you may run the following commands:
+
+```bash
+psql -h localhost -U datadog postgres -c \
+"select * from pg_stat_database LIMIT(1);"
+&& echo -e "\e[0;32mPostgres connection - OK\e[0m" || \
+|| echo -e "\e[0;31mCannot connect to Postgres\e[0m"
+
+```
+When prompted for the password enter the password you configured within bootstrap.sh
+
 ## Writing a Custom Agent Check
 
 Create a custom Agent check that submits a metric named my\_metric with
