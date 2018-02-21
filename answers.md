@@ -336,7 +336,7 @@ In order to configure follow these steps:
 - If your VM is not running issue a `vagrant up`
 - Connect to your vm via `vagrant ssh` or your preferred terminal emulator
 - In this case we will create the two files in their respective directories. **This can also be automated for deployments if desired.**
-- For our example we will be creating a random check
+- For our example we will be creating a random check with a value between 0 & 1000.
  - `vim /etc/dd-agent/checks.d/my_metric.py
 ```python
 import random
@@ -344,7 +344,7 @@ from checks import AgentCheck
 
 class RandCheck(AgentCheck):
     def check(self, instance):
-        self.gauge('test.support.random', random.random())
+        self.gauge('test.support.random', random.random() * 1000)
 
 ```
 
@@ -352,7 +352,7 @@ class RandCheck(AgentCheck):
 
 ```yaml
 init_config:
- min_collection_interval: 30
+ min_collection_interval: 45
 
 instances:
     [{}]
@@ -367,4 +367,4 @@ postgres.yaml is valid
 All yaml files passed. You can now run the Datadog agent.
 ```
 At this point you may restart the datadog agent in your order to view your check within the [Datadog Hostmap](https://app.datadoghq.com/infrastructure/map) to see it reporting.
-
+![tag image](screenshots/agentcheck.PNG)
