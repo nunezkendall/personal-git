@@ -83,7 +83,7 @@ for enterprise as well as home use.
         [https://github.com/knunez/hiring-engineers.git](https://github.com/knunez/hiring-engineers.git)
 
 -   Within the same directory in which you cloned the repository run the
-    following command: vagrant up This will trigger vagrant to provision
+    following command: 'vagrant up' This will trigger vagrant to provision
     an ubuntu 14.04
 
 -   Upon first run bootstrap.sh will require several parameters:
@@ -103,7 +103,7 @@ for enterprise as well as home use.
 
     -   PostgreSQL integration will not be configured.
 
--   You may run vagrant provision after the fact to execute the
+-   You may run 'vagrant provision' after the fact to execute the
     bootstrap.sh
 
 -   You may now utilize vagrant ssh or ssh with your preferred terminal
@@ -137,7 +137,7 @@ Example:
 
 Below I have included an excerpt from the included bootstrap configuration
 file demonstrating the automation of the Datadog agent. This will only
-run on initial vagrant up or vagrant provision.
+run on initial 'vagrant up' or 'vagrant provision'.
 ```bash
 \#!/usr/bin/env bash
 
@@ -191,7 +191,7 @@ fi
 
         -   Your\_api\_key='Enter API Key Here'
 
--   Running vagrant provision while the vm is still running will execute
+-   Running 'vagrant provision' while the vm is still running will execute
     the bootstraph.sh, install your Datadog Agent and populate the API
     Key to begin the transmission of data.
 
@@ -199,7 +199,7 @@ fi
     Map](https://app.datadoghq.com/infrastructure/map) to see that the
     agent is indeed reporting back to Datadog.
 
--   A successful initial vagrant up or vagrant provision should give you
+-   A successful initial 'vagrant up' or 'vagrant provision' should give you
     the following:
 
 ## Tagging
@@ -231,7 +231,7 @@ echo \>&2 "Datadog.conf was missing, setting DD\_API\_KEY & tags"
 sudo sh -c "sed 's/\^.\* tags:.\*/ tags: \$tags/'
 /etc/dd-agent/datadog.conf.example \> /etc/dd-agent/datadog.conf"
 ```
--   This excerpt will take do the following
+-   This excerpt will do the following
 
     -   Allow you to predefine the desired tags
 
@@ -251,8 +251,8 @@ sudo sh -c "sed 's/\^.\* tags:.\*/ tags: \$tags/'
 ## Installing and Monitoring PostgreSQL
 > Install a database on your machine (MongoDB, MySQL, or PostgreSQL) and then install the respective Datadog integration for that database.
 
-- Below I have included an excerpt from bootstrap.sh which will do the following upon running intial vagrant up or vagrant provision
-- This will bootstrap will first check that the role:database is found within tags:
+- Below I have included an excerpt from bootstrap.sh which will do the following upon running intial 'vagrant up' or 'vagrant provision'
+- This bootstrap will first check that the role:database is found within tags:
 -	It will then proceed with the install & enable PostgreSQL on boot.
 -	It will then go a step further to verify that the username & password has been configured in bootstrap.sh
 -	Create the Datadog agent user in the database & create the necessary permissions
@@ -327,9 +327,7 @@ When prompted for the password enter the password you configured within bootstra
 
 ## Writing a Custom Agent Check
 
-Create a custom Agent check that submits a metric named my\_metric with
-a random value between 0 and 1000.
+> Create a custom Agent check that submits a metric named my\_metric with a random value between 0 and 1000.
 
-Datadog provides a great guide in order to write a custom [Agent
-Check](https://docs.datadoghq.com/agent/agent_checks/).
+Datadog provides a great guide in order to write a custom [Agent Check](https://docs.datadoghq.com/agent/agent_checks/).
 
