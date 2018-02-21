@@ -107,7 +107,7 @@ for enterprise as well as home use.
     `bootstrap.sh`
 
 -   You may now utilize vagrant ssh or ssh with your preferred terminal
-    emulator to vagrant@localhost:2222, you will now be connected to the
+    emulator to `vagrant@localhost:2222`, you will now be connected to the
     VM with a command prompt.
 
 -   You may exit by simply typing exit at the prompt.
@@ -189,7 +189,7 @@ fi
 
     -   Edit `bootstrap.sh`
 
-        -   Your\_api\_key='Enter API Key Here'
+        -   `Your\_api\_key='Enter API Key Here'`
 
 -   Running `vagrant provision` while the vm is still running will execute
     the bootstraph.sh, install your Datadog Agent and populate the API
@@ -329,5 +329,42 @@ When prompted for the password enter the password you configured within `bootstr
 
 > Create a custom Agent check that submits a metric named my\_metric with a random value between 0 and 1000.
 
-Datadog provides a great guide in order to write a custom [Agent Check](https://docs.datadoghq.com/agent/agent_checks/).
+Datadog provides a great guide in order to write a custom [Agent Check](https://docs.datadoghq.com/agent/agent_checks/). There are two files which need to be created one is a python file which contains the logic for the check itself, this file is placed in `/etc/dd-agent/checks.d`. The other is a yaml configuration file for the same check with the same name and this must be placed in `/etc/dd-agent/conf.d/`.
+
+In order to configure follow these steps:
+
+- If your VM is not running issue a `vagrant up`
+- Connect to your vm via `vagrant ssh` or your preferred terminal emulator
+- In this case we will create the two files in their respective directories. **This can also be automated for deployments if desired.**
+- For our example we will be creating a random check
+ - `vim /etc/dd-agent/checks.d/my_metric.py
+```python
+import random
+from checks import AgentCheck
+
+class RandCheck(AgentCheck):
+    def check(self, instance):
+        self.gauge('test.support.random', random.random())
+
+```
+
+ - `vim /etc/dd-agent/checks.d/my_metric.yaml`
+
+```yaml
+init_config:
+ min_collection_interval: 30
+
+instances:
+    [{}]
+```
+
+In order to verify that the files are correct you may issue the following command `service datadog-agent configtest`
+Which should then return the following on the command line.
+```
+service datadog-agent configtest
+my_metric.yaml is valid
+postgres.yaml is valid
+All yaml files passed. You can now run the Datadog agent.
+```
+At this point you may restart the datadog agent in your order to view your check within the [Datadog Hostmap](https://app.datadoghq.com/infrastructure/map) to see it reporting.
 
