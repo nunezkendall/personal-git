@@ -502,4 +502,8 @@ This is what the final alert will look like when you receive it in your email.
 
 
 
+> Bonus Question: What is the difference between a Service and a Resource?
 
+A service is The name of a set of processes that do the same job.
+
+A resource is a query to a service. 
