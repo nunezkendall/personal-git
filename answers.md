@@ -44,11 +44,15 @@ information!
 
     -   [Writing a Custom Agent Check](#writing-a-custom-agent-check)
 
--   Visualizing Data
+-   [Visualizing Data](#visualizing-data)
 
-    -   PostgreSQL Dashboard
+    -   [Creating a Timeboard](#creating-a-timeboard)
 
-    -   Snapshot & Annotation
+    -   [Custom Metic](#custom-metric)
+
+    -   [Anomaly Funcion](#anomaly-function)
+
+    -   [Rollup Function](#rollup-function)
 
 -   Alerting on Data
 
@@ -368,3 +372,106 @@ All yaml files passed. You can now run the Datadog agent.
 ```
 At this point you may restart the datadog agent in your order to view your check within the [Datadog Hostmap](https://app.datadoghq.com/infrastructure/map) to see it reporting.
 ![tag image](screenshots/agentcheck.PNG)
+
+> Bonus Question Can you change the collection interval without modifying the Python check file you created?
+
+In order to modify the check interval without modifying the python check file you may edit the `min_collection_interval: 45` in the yaml file.
+Within the agent check configuration documentation found [here](https://docs.datadoghq.com/agent/agent_checks/) it states that custom checks default to 15 seconds. So setting the minimum check interval between 31 - 45 seconds should ensure the check is ran every 45 seconds.
+
+# Visualizing Data
+
+Visualizing data is fairly important to easily comprehending the reported data. Identifying a potential issue by looking at the raw data would be much more difficult than looking at a graph and seeing a spike or pattern which is out of the normal range. Analyzing or forecasting would be a massive task were it not for easy to interpret visual data.
+
+## Creating a Timeboard
+
+For this time board we will be utilizing Datadogs API to make a call to create a time board with the following:
+
+> Your custom metric scoped over your host.
+> Any metric from the Integration on your Database with the anomaly function applied.
+> Your custom metric with the rollup function applied to sum up all the points for the past hour into one bucket
+
+Below is our `api.py` script which we will utilize to create our time board with the requirements above. Documentation on the creation and utilization of Datadogs API may be found [here](https://docs.datadoghq.com/api/?lang=python#overview).
+
+
+## Custom Metric
+
+```python
+#Authentication
+
+from datadog import initialize, api
+
+options = {'api_key': '5b51a3a01c54d8424999428fb4298de4',
+           'app_key': '7321593bdd549b445f73dac828524ee6757b4225'
+}
+
+initialize(\**options)
+
+# Creating the Timeboard & Graphs
+
+title = "API Timeboard"
+description = "Timeboard for visualize metrics"
+graphs = [{
+    "definition": {
+        "events": [],
+        "requests": [
+            {"q": "avg:test.support.random{*} by {host}"}
+
+        ],
+        "viz": "timeseries"
+    },
+    "title": "Random avg by host"
+},
+
+```
+## Anomaly Function 
+
+```python
+{
+    "definition": {
+        "events": [],
+        "requests": [
+            {"q": "anomalies(avg:postgresql.percent_usage_connections{*}, 'basic', 3)"}
+
+        ],
+        "viz": "timeseries"
+    },
+    "title": "Postgres w/ anomaly detection"
+},
+```
+## Rollup Function
+```
+{
+    "definition": {
+        "events": [],
+        "requests": [
+            {"q": "avg:test.support.random{*}.rollup(sum,3600)"}
+
+        ],
+        "viz": "timeseries"
+    },
+    "title": "Random Rollup 1hr sum"
+}]
+
+template_variables = [{
+    "name": "host1",
+    "prefix": "host",
+    "default": "host:my-host"
+}]
+
+read_only = True
+api.Timeboard.create(title=title,
+                     description=description,
+                     graphs=graphs,
+                     template_variables=template_variables,
+                     read_only=read_only)
+
+```
+
+> Once this is created, access the Dashboard from your Dashboard List in the UI:
+> Set the Timeboard's timeframe to the past 5 minutes
+> Take a snapshot of this graph and use the @ notation to send it to yourself.
+
+> Bonus Question: What is the Anomaly graph displaying?
+
+The anomaly graph in this scenario is utilizing historical data to identify anomalies with Datatdogs basic algorithm taking into account a standard deviation of 3.
+![tag image](screenshots/api-timeboard.PNG)
