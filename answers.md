@@ -54,15 +54,15 @@ information!
 
     -   [Rollup Function](#rollup-function)
 
--   Alerting on Data
+-   [Monitoring Data](#monitoring-data)
 
-    -   Create a Monitor
+    -   [Create a Monitor](#create-a-monitor)
 
-    -   Email Screenshot
+    -   [Email Screenshot](#email-screenshot)
 
-    -   Evening Down Time
+    -   [Schedule Down Time](#schedule-down-time)
 
--   Conclusion
+-   [Collecting APM Data](#collecting-apm-data)
 
 # Setup an Ubuntu VM
 
@@ -475,3 +475,31 @@ api.Timeboard.create(title=title,
 
 The anomaly graph in this scenario is utilizing historical data to identify anomalies with Datatdogs basic algorithm taking into account a standard deviation of 3.
 ![tag image](screenshots/api-timeboard.PNG)
+
+# Monitoring Data
+
+Monitoring data and creating alerts is a vital component when monitoring modern day infrastructure. In the following steps I will configure a monitor to notify me when my_metric:
+- Alert when over 800 for the last 5min 
+- Warn when over 500 for the last 5min
+
+## Create a Monitor
+![tag image](screenshots/monitor.PNG)
+
+- Also it will send a notification when there is no data.
+- Each alert will contain the hostname & IP along with a custom message based on if its an Alert, Warning or No Data.
+
+![tag image](screenshots/monitor-notification.PNG)
+
+## Email Screenshot
+
+This is what the final alert will look like when you receive it in your email.
+![tag image](/screenshots/email-alert.PNG)
+
+## Schedule Down Time
+> Bonus Question: Since this monitor is going to alert pretty often, you don't want to be alerted when you are out of the office. Set up two scheduled downtimes for this monitor:
+![tag image](/screenshots/weekly-downtime.PNG)
+![tag image](/screenshots/weekend-downtime.PNG)
+
+
+
+
