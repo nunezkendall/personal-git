@@ -86,7 +86,7 @@ for enterprise as well as home use.
     -   git clone
         [https://github.com/knunez/hiring-engineers.git](https://github.com/knunez/hiring-engineers.git)
 
--   Within the same directory in which you cloned the repository run the
+-   Within the same directory goto the `scripts` folder inside the cloned repository run the
     following command: `vagrant up` This will trigger vagrant to provision
     an ubuntu 14.04
 
@@ -543,12 +543,14 @@ In order to instrument this application I must now install ddtrace, for this I w
 
 Once this is installed you may instrument it with the following commands.
 
-- export FLASK_APP=apm.py
-- ddtrace-run python -m flask run --host=0.0.0.0
+- `export FLASK_APP=apm.py`
+- `ddtrace-run python -m flask run --host=0.0.0.0`
+
 
 You can now view your trace by going [here](https://app.datadoghq.com/apm/services). Make sure to select your environment.
 Below you will find a view of the Datadog APM services dashboard show the APM and infrastructure.
 ![tag image](/screenshots/apm.PNG)
+
 This image shows the relevant traces and can be found [here](https://app.datadoghq.com/apm/search).
 ![tag image](/screenshots/traces.PNG)
 
