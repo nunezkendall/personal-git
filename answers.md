@@ -500,10 +500,65 @@ This is what the final alert will look like when you receive it in your email.
 ![tag image](/screenshots/weekly-downtime.PNG)
 ![tag image](/screenshots/weekend-downtime.PNG)
 
+## Collecting APM Data
+> Given the following Flask app (or any Python/Ruby/Go app of your choice) instrument this using Datadogs APM solution:
 
+Using the following app we will utiliize ddtrace-run to instrument the application and flow data to Datadogs APM.
+
+```flask
+from flask import Flask
+import logging
+import sys
+
+# Have flask use stdout as the logger
+main_logger = logging.getLogger()
+main_logger.setLevel(logging.DEBUG)
+c = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+c.setFormatter(formatter)
+main_logger.addHandler(c)
+
+app = Flask(__name__)
+
+@app.route('/')
+def api_entry():
+    return 'Entrypoint to the Application'
+
+@app.route('/api/apm')
+def apm_endpoint():
+    return 'Getting APM Started'
+
+@app.route('/api/trace')
+def trace_endpoint():
+    return 'Posting Traces'
+
+if __name__ == '__main__':
+    app.run()
+
+```
+
+I have copied the app to apm.py.
+In order to instrument this application I must now install ddtrace, for this I will utilize python pip.
+- `pip install ddtrace`
+
+Once this is installed you may instrument it with the following commands.
+
+- export FLASK_APP=apm.py
+- ddtrace-run python -m flask run --host=0.0.0.0
+
+You can now view your trace by going [here](https://app.datadoghq.com/apm/services). Make sure to select your environment.
+Below you will find a view of the Datadog APM services dashboard show the APM and infrastructure.
+![tag image](/screenshots/apm.PNG)
+This image shows the relevant traces and can be found [here](https://app.datadoghq.com/apm/search).
+![tag image](/screenshots/traces.PNG)
 
 > Bonus Question: What is the difference between a Service and a Resource?
 
 A service is The name of a set of processes that do the same job.
 
-A resource is a query to a service. 
+A resource is a query to a service.
+
+## Final Question
+> Is there anything creative you would use Datadog for?
+
+First this has been a great and interesting excercise, to answer the questions I would find it really interesting to monitor teamspeak and capture data via the apm to see and identify why my friend suddenly sounds like a robot.
