@@ -2,9 +2,9 @@
 
 # Input your information here
 
-your_api_key='5b51a3a01c54d8424999428fb4298de4'
-username='datadog'
-password='monitoring'
+your_api_key=''
+username=''
+password=''
 
 # Check for API key.
 
